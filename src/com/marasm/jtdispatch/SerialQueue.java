@@ -15,7 +15,6 @@ public class SerialQueue implements DispatchQueue
     Lock executionLock = new ReentrantLock(true);
     Thread thread;
 
-
     private SerialQueue(String qid){}
 
     public static DispatchQueue get(String qid)
@@ -64,8 +63,7 @@ public class SerialQueue implements DispatchQueue
         blocksLock.unlock();
     }
 
-    @Override
-    public boolean isEmpty()
+    private boolean isEmpty()
     {
         blocksLock.lock();
             boolean res = blocks.isEmpty();

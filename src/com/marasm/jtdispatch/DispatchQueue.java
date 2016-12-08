@@ -12,9 +12,11 @@ public interface DispatchQueue
 {
     static interface Block {void action();}
 
-    static DispatchQueue get(String qid) {return null;}
+    static DispatchQueue get(String qid)
+    {
+        return SerialQueue.get(qid);
+    }
 
     void async(Block b);
     void sync(Block b);
-    boolean isEmpty();
 }

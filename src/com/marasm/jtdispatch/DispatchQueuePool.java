@@ -2,6 +2,7 @@ package com.marasm.jtdispatch;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -26,6 +27,19 @@ public class DispatchQueuePool
         synchronized (queues) {
             queues.put(qid,q);
         }
+    }
+
+    public static Set<String> getQueueIDs()
+    {
+        Set<String> queueIDs;
+        lock.lock();
+        queueIDs = queues.keySet();
+        lock.unlock();
+        return queueIDs;
+    }
+    public static int getQueuesCount()
+    {
+        return getQueueIDs().size();
     }
 
 }
