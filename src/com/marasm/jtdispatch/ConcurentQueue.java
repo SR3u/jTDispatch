@@ -17,13 +17,13 @@ public class ConcurentQueue implements DispatchQueue
         this.maxConcurentThreads = maxConcurentThreads;
         for(int i = 0; i < maxConcurentThreads; i++)
         {
-            queues.add(SerialQueue.get(qid+".executor_"+i));
+            queues.add(SerialQueue.global());
         }
     }
 
     public static DispatchQueue get(String qid)
     {
-        return get(qid,2);
+        return get(qid,defaultConcurentThreadsCount());
     }
     public static DispatchQueue get(String qid, int maxConcurentThreads)
     {
@@ -36,6 +36,16 @@ public class ConcurentQueue implements DispatchQueue
         }
         DispatchQueuePool.lock.unlock();
         return queue;
+    }
+
+    public static DispatchQueue global()
+    {
+        return global(defaultConcurentThreadsCount());
+    }
+
+    public static DispatchQueue global(int concurentThreads)
+    {
+        return new ConcurentQueue("tmp",concurentThreads);
     }
 
     @Override
@@ -71,4 +81,6 @@ public class ConcurentQueue implements DispatchQueue
             b.action();
         }
     }
+
+    public static int defaultConcurentThreadsCount(){return 2;}
 }

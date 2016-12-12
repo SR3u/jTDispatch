@@ -17,6 +17,11 @@ public interface DispatchQueue
         return SerialQueue.get(qid);
     }
 
+    static DispatchQueue global()
+    {
+        return SerialQueue.global();
+    }
+
     void async(Block b);
     void sync(Block b);
 }

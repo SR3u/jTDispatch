@@ -15,7 +15,7 @@ public class SerialQueue implements DispatchQueue
     Lock executionLock = new ReentrantLock(true);
     Thread thread;
 
-    private SerialQueue(String qid){}
+    SerialQueue(String qid){}
 
     public static DispatchQueue get(String qid)
     {
@@ -28,6 +28,11 @@ public class SerialQueue implements DispatchQueue
         }
         DispatchQueuePool.lock.unlock();
         return queue;
+    }
+
+    public static DispatchQueue global()
+    {
+        return new SerialQueue("tmp");
     }
 
     @Override
