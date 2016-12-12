@@ -1,6 +1,6 @@
 package com.marasm.jtdispatch_test;
 
-import com.marasm.jtdispatch.ConcurentQueue;
+import com.marasm.jtdispatch.ConcurrentQueue;
 import com.marasm.jtdispatch.DispatchQueue;
 import com.marasm.jtdispatch.DispatchQueuePool;
 import com.marasm.jtdispatch.SerialQueue;
@@ -9,6 +9,7 @@ public class Main {
 
     public static void main(String[] args)
     {
+        System.out.println("Default concurrent queue threads: "+ ConcurrentQueue.defaultConcurentThreadsCount());
         final DispatchQueue q = SerialQueue.get("com.marasm.jtdispatch_test.testSerialQueue-0");
         System.out.println("com.marasm.jtdispatch_test.testSerialQueue-0");
         q.async(()->{
@@ -21,8 +22,8 @@ public class Main {
         q.sync(()->{
             System.out.println("5");
         });
-        System.out.println("com.marasm.jtdispatch_test.testConcurentQueue-0");
-        final DispatchQueue cq = ConcurentQueue.get("com.marasm.jtdispatch_test.testConcurentQueue-0", 4);
+        System.out.println("com.marasm.jtdispatch_test.testConcurrentQueue-0 (4 threads)");
+        final DispatchQueue cq = ConcurrentQueue.get("com.marasm.jtdispatch_test.testConcurrentQueue-0", 4);
         for (int i = 0; i < 4; i++)
         {
             final int idx = i;

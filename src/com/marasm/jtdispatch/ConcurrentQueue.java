@@ -5,14 +5,14 @@ import java.util.ArrayList;
 /**
  * Created by vhq473 on 08.12.2016.
  */
-public class ConcurentQueue implements DispatchQueue
+public class ConcurrentQueue implements DispatchQueue
 {
     int maxConcurentThreads = 2;
     ArrayList<DispatchQueue> queues = new ArrayList<>();
 
     int currentidx = 0;
 
-    private ConcurentQueue(String qid, int maxConcurentThreads)
+    private ConcurrentQueue(String qid, int maxConcurentThreads)
     {
         this.maxConcurentThreads = maxConcurentThreads;
         for(int i = 0; i < maxConcurentThreads; i++)
@@ -31,7 +31,7 @@ public class ConcurentQueue implements DispatchQueue
         DispatchQueue queue = DispatchQueuePool.getQueue(qid);
         if(queue == null)
         {
-            queue = new ConcurentQueue(qid, maxConcurentThreads);
+            queue = new ConcurrentQueue(qid, maxConcurentThreads);
             DispatchQueuePool.setQueue(qid,queue);
         }
         DispatchQueuePool.lock.unlock();
@@ -45,7 +45,7 @@ public class ConcurentQueue implements DispatchQueue
 
     public static DispatchQueue global(int concurentThreads)
     {
-        return new ConcurentQueue("tmp",concurentThreads);
+        return new ConcurrentQueue("tmp",concurentThreads);
     }
 
     @Override
@@ -82,5 +82,9 @@ public class ConcurentQueue implements DispatchQueue
         }
     }
 
-    public static int defaultConcurentThreadsCount(){return 2;}
+    public static int defaultConcurentThreadsCount()
+    {
+        int cores = Runtime.getRuntime().availableProcessors();
+        return cores > 1 ? cores : 2;
+    }
 }
