@@ -45,9 +45,19 @@ public class SerialQueue implements DispatchQueue
 
     @Override
     public void sync(Block b) {
-        executionLock.lock();
-            b.action();
-        executionLock.unlock();
+        async(() -> {
+            synchronized (this) {
+                b.action();
+                this.notify();
+            }
+        });
+        synchronized (this) {
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void commit()
