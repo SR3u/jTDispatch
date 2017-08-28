@@ -9,36 +9,32 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * Created by vhq473 on 08.12.2016.
  */
-public class DispatchQueuePool
-{
-    private static Map<String,DispatchQueue> queues = new HashMap<>();
+public class DispatchQueuePool {
+    private static Map<String, DispatchQueue> queues = new HashMap<>();
 
     public final static Lock lock = new ReentrantLock();
 
-    public static DispatchQueue getQueue(String qid)
-    {
+    public static DispatchQueue getQueue(String qid) {
         synchronized (queues) {
             return queues.get(qid);
         }
     }
 
-    public static void setQueue(String qid, DispatchQueue q)
-    {
+    public static void setQueue(String qid, DispatchQueue q) {
         synchronized (queues) {
-            queues.put(qid,q);
+            queues.put(qid, q);
         }
     }
 
-    public static Set<String> getQueueIDs()
-    {
+    public static Set<String> getQueueIDs() {
         Set<String> queueIDs;
         lock.lock();
         queueIDs = queues.keySet();
         lock.unlock();
         return queueIDs;
     }
-    public static int getQueuesCount()
-    {
+
+    public static int getQueuesCount() {
         return getQueueIDs().size();
     }
 
