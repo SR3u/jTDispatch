@@ -5,10 +5,10 @@ package com.marasm.jtdispatch;
  */
 
 public interface DispatchQueue {
-    static interface Block {
+
+    interface Block {
         void action();
     }
-
 
     static DispatchQueue get(String qid) {
         return SerialQueue.get(qid);

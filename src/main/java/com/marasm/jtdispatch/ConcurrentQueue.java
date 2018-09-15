@@ -1,15 +1,18 @@
 package com.marasm.jtdispatch;
 
+import lombok.Getter;
+
 import java.util.ArrayList;
 
 /**
  * Created by vhq473 on 08.12.2016.
  */
 public class ConcurrentQueue implements DispatchQueue {
-    int maxConcurentThreads = 2;
-    ArrayList<DispatchQueue> queues = new ArrayList<>();
-
-    int currentidx = 0;
+    @Getter
+    private int maxConcurentThreads;
+    private final ArrayList<DispatchQueue> queues = new ArrayList<>();
+    @Getter
+    private int currentidx = 0;
 
     private ConcurrentQueue(String qid, int maxConcurentThreads) {
         this.maxConcurentThreads = maxConcurentThreads;

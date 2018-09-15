@@ -9,9 +9,9 @@ import java.util.concurrent.locks.ReentrantLock;
  * Created by vhq473 on 08.12.2016.
  */
 public class SerialQueue implements DispatchQueue {
-    Queue<Block> blocks = new LinkedBlockingQueue<>();
-    Lock blocksLock = new ReentrantLock(true);
-    Lock executionLock = new ReentrantLock(true);
+    private final Queue<Block> blocks = new LinkedBlockingQueue<>();
+    private final Lock blocksLock = new ReentrantLock(true);
+    private final Lock executionLock = new ReentrantLock(true);
     Thread thread;
 
     SerialQueue(String qid) {
